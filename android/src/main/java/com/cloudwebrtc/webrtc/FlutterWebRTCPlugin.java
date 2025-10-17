@@ -121,12 +121,27 @@ public class FlutterWebRTCPlugin implements FlutterPlugin, ActivityAware, EventC
         AudioSwitchManager.instance.audioDeviceChangeListener = (devices, currentDevice) -> {
             Log.w(TAG, "audioFocusChangeListener " + devices+ " " + currentDevice);
             ConstraintsMap params = new ConstraintsMap();
-
-            // Include the devices and currentDevice data in the event
-            params.putList("devices", devices);
-            params.putString("currentDevice", currentDevice.getName());
-
             params.putString("event", "onDeviceChange");
+
+            ConstraintsArray deviceArray = new ConstraintsArray();
+            for (AudioDevice device : devices) {
+                ConstraintsMap deviceInfo = new ConstraintsMap();
+                deviceInfo.putString("name", device.getName());
+                deviceInfo.putString("type", device.getClass().getSimpleName());
+                deviceArray.pushMap(deviceInfo);
+            }
+            params.putArray("devices", deviceArray.toArrayList());
+    
+            // FIXED: Convert currentDevice to serializable format
+            if (currentDevice != null) {
+                ConstraintsMap currentDeviceInfo = new ConstraintsMap();
+                currentDeviceInfo.putString("name", currentDevice.getName());
+                currentDeviceInfo.putString("type", currentDevice.getClass().getSimpleName());
+                params.putMap("currentDevice", currentDeviceInfo.toMap());
+            } else {
+                params.putObject("currentDevice", null);
+            }
+            
             sendEvent(params.toMap());
             return null;
         };
