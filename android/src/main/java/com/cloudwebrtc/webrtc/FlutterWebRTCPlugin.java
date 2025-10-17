@@ -28,6 +28,10 @@ import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.view.TextureRegistry;
 
+// Add these imports after the existing ones (around line 17)
+import com.cloudwebrtc.webrtc.utils.ConstraintsArray;
+import com.twilio.audioswitch.AudioDevice;
+
 /**
  * FlutterWebRTCPlugin
  */
