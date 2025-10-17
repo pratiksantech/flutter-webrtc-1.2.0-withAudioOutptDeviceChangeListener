@@ -133,7 +133,7 @@ public class FlutterWebRTCPlugin implements FlutterPlugin, ActivityAware, EventC
         ConstraintsMap deviceInfo = new ConstraintsMap();
         deviceInfo.putString("name", device.getName());
         deviceInfo.putString("type", device.getClass().getSimpleName());
-        deviceArray.pushMap(deviceInfo.toMap());
+        deviceArray.pushMap(deviceInfo); // FIXED: Pass ConstraintsMap directly, not .toMap()
     }
     params.putArray("devices", deviceArray.toArrayList());
     
