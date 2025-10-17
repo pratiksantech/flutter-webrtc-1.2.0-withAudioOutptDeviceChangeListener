@@ -127,24 +127,25 @@ public class FlutterWebRTCPlugin implements FlutterPlugin, ActivityAware, EventC
             ConstraintsMap params = new ConstraintsMap();
             params.putString("event", "onDeviceChange");
 
-            ConstraintsArray deviceArray = new ConstraintsArray();
-            for (AudioDevice device : devices) {
-                ConstraintsMap deviceInfo = new ConstraintsMap();
-                deviceInfo.putString("name", device.getName());
-                deviceInfo.putString("type", device.getClass().getSimpleName());
-                deviceArray.pushMap(deviceInfo);
-            }
-            params.putArray("devices", deviceArray.toArrayList());
+            // Convert devices to serializable format
+    ConstraintsArray deviceArray = new ConstraintsArray();
+    for (AudioDevice device : devices) {
+        ConstraintsMap deviceInfo = new ConstraintsMap();
+        deviceInfo.putString("name", device.getName());
+        deviceInfo.putString("type", device.getClass().getSimpleName());
+        deviceArray.pushMap(deviceInfo.toMap());
+    }
+    params.putArray("devices", deviceArray.toArrayList());
     
-            // FIXED: Convert currentDevice to serializable format
-            if (currentDevice != null) {
-                ConstraintsMap currentDeviceInfo = new ConstraintsMap();
-                currentDeviceInfo.putString("name", currentDevice.getName());
-                currentDeviceInfo.putString("type", currentDevice.getClass().getSimpleName());
-                params.putMap("currentDevice", currentDeviceInfo.toMap());
-            } else {
-                params.putObject("currentDevice", null);
-            }
+    // Convert currentDevice to serializable format
+    if (currentDevice != null) {
+        ConstraintsMap currentDeviceInfo = new ConstraintsMap();
+        currentDeviceInfo.putString("name", currentDevice.getName());
+        currentDeviceInfo.putString("type", currentDevice.getClass().getSimpleName());
+        params.putMap("currentDevice", currentDeviceInfo.toMap());
+    } else {
+        params.putNull("currentDevice");
+    }
             
             sendEvent(params.toMap());
             return null;
