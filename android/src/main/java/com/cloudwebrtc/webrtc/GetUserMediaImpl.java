@@ -70,7 +70,6 @@ import org.webrtc.VideoCapturer;
 import org.webrtc.VideoSource;
 import org.webrtc.VideoTrack;
 import org.webrtc.audio.JavaAudioDeviceModule;
-import org.webrtc.VideoProcessor;
 
 import java.io.File;
 import java.io.FileInputStream;
