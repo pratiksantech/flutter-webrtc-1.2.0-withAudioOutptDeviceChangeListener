@@ -70,6 +70,7 @@ import org.webrtc.VideoCapturer;
 import org.webrtc.VideoSource;
 import org.webrtc.VideoTrack;
 import org.webrtc.audio.JavaAudioDeviceModule;
+import org.webrtc.VideoProcessor;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -104,6 +105,7 @@ public class GetUserMediaImpl {
     static final String TAG = FlutterWebRTCPlugin.TAG;
 
     private final Map<String, VideoCapturerInfoEx> mVideoCapturers = new HashMap<>();
+    private final Map<String, VideoSource> mVideoSource = new HashMap<>();
     private final Map<String, SurfaceTextureHelper> mSurfaceTextureHelpers = new HashMap<>();
     private final StateProvider stateProvider;
     private final Context applicationContext;
